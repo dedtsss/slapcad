@@ -8,7 +8,7 @@
 
 ## Текущее состояние
 
-**24.10.2026 — только проектирование.** Репозиторий создан из `dedtsss/etalon-project-template`. Инженерное ПО не развёрнуто, исполнение задач не запущено, Workspace Agent не настроен.
+**27.10.2026 — минимальный пилот TODOMA на BrainVPS.** Изолированное Python-окружение и AgentCAD 0.7.0 установлены, условная геометрия построена и сохранена в [examples/todoma-demo](examples/todoma-demo). Точная модель по обмерам ещё не создана. FreeCAD, Docker, MCP и Workspace Agent не установлены; подробный универсальный план отложен. Активная [задача #1](https://github.com/dedtsss/kolkhozcad/issues/1) сужена до одной реальной рамы.
 
 - [Спецификация первого работающего контура](docs/specs/portable-engineering-mvp.md)
 - [Текущий статус](docs/status.md)

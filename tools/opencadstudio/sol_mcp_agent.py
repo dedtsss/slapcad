@@ -18,6 +18,7 @@ MODEL="gpt-6.1-sol"
 API="https://api.openai.com/v1/responses"
 MAX_ROUNDS=30
 MAX_TOOL_CALLS=48
+MAX_TOTAL_TOKENS=40000
 MAX_INPUT_CHARS=3500
 SESSION_COMMAND=[
  "/usr/bin/ssh","-F","/dev/null","-T",
@@ -144,6 +145,9 @@ def main():
        "input":task,"tools":TOOLS,"max_output_tokens":1800},key)
   for turn in range(MAX_ROUNDS):
    usage.append(r.get("usage",{}))
+   if sum(x.get("total_tokens",0) for x in usage)>MAX_TOTAL_TOKENS:
+    failure="Model token budget exhausted"
+    break
    if r.get("status") not in ("completed",):
     failure="OpenAI response status: "+str(r.get("status"))
     break
@@ -169,8 +173,13 @@ def main():
     events.append(event)
     if fc.get("name")=="cad_finish" and ans.get("ok") and ans.get("data",{}).get("finished"):
      result=ans["data"]
+    if fc.get("name")=="cad_edit" and ans.get("ok"):
+     req=args.get("request",{})
+     steps=req.get("steps",[]) if req.get("op")=="batch" else [req]
+     event["cad_actions"]=[str(x.get("cmd") or x.get("op"))[:180] for x in steps if isinstance(x,dict)][:12]
     outputs.append({"type":"function_call_output","call_id":fc["call_id"],
                     "output":json.dumps(ans,ensure_ascii=False)[:13000]})
+    if result:break
    if failure or result:
     break
    if not outputs:
@@ -197,7 +206,25 @@ def main():
        "duration_sec":report["duration_sec"],"report_path":str(file)},ensure_ascii=False))
  if not result:sys.exit(2)
 
+
+def preflight():
+ bridge=Bridge()
+ try:
+  checks={}
+  for tool,args in (("inspect",{}),("commands",{"name":"BOX"}),("query",{"type":"3DSolid"})):
+   resp=bridge.call(tool,args)
+   checks[tool] = bool(resp.get("ok"))
+  print(json.dumps({"ok":all(checks.values()),"mode":"preflight-no-api-no-secrets",
+                    "transport":"BruceVPS SSH to HangarVPS","mcp":checks},ensure_ascii=False))
+ finally:bridge.close()
+
 if __name__=="__main__":
+ if sys.argv[1:]==["--preflight"]:
+  try:preflight()
+  except Exception as e:
+   print(json.dumps({"ok":False,"mode":"preflight-no-api","error":str(e)[:220]}))
+   sys.exit(2)
+  sys.exit(0)
  try:main()
  except Exception as e:
   print(json.dumps({"ok":False,"error":type(e).__name__+": "+str(e)[:350]},ensure_ascii=False))

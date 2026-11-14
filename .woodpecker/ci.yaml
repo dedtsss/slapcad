@@ -1,0 +1,10 @@
+# SlapCAD: проверки закрытого репозитория на собственном HangarVPS.
+# Проектный скрипт пока проверяет каркас; тесты CAD-дальнейшей реализации добавляются отдельно.
+when:
+  - event: [push, pull_request, manual]
+
+steps:
+  - name: check
+    image: bash:5.2
+    commands:
+      - bash ./scripts/check.sh

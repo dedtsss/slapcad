@@ -1,4 +1,4 @@
-# КолхозCAD
+# SlapCAD
 
 Независимая инженерная среда для AI-агентов: параметрическое 3D-моделирование, модификация деталей, измерения, чертежи, изучение практического опыта и расчёты.
 
@@ -8,7 +8,7 @@
 
 ## Текущее состояние
 
-**27.10.2026 — минимальный пилот TODOMA на BrainVPS.** Изолированное Python-окружение и AgentCAD 0.7.0 установлены, условная геометрия построена и сохранена в [examples/todoma-demo](examples/todoma-demo). Точная модель по обмерам ещё не создана. FreeCAD, Docker, MCP и Workspace Agent не установлены; подробный универсальный план отложен. Активная [задача #1](https://github.com/dedtsss/kolkhozcad/issues/1) сужена до одной реальной рамы.
+**27.10.2026 — минимальный пилот TODOMA на BrainVPS.** Изолированное Python-окружение и AgentCAD 0.7.0 установлены, условная геометрия построена и сохранена в [examples/todoma-demo](examples/todoma-demo). Точная модель по обмерам ещё не создана. FreeCAD, Docker, MCP и Workspace Agent не установлены; подробный универсальный план отложен. Активная [задача #1](https://github.com/dedtsss/slapcad/issues/1) сужена до одной реальной рамы.
 
 - [Спецификация первого работающего контура](docs/specs/portable-engineering-mvp.md)
 - [Текущий статус](docs/status.md)
@@ -16,7 +16,7 @@
 - [Идеи и проверяемые кандидаты](docs/ideas.md)
 - [Правила агентов](AGENTS.md)
 - [Единые правила публикации и запуска задач](https://github.com/dedtsss/agent-dispatch/blob/main/docs/task-rules.md)
-- [Исходное испытание «КолхозCAD»](https://github.com/dedtsss/agent-dispatch/blob/main/docs/memory/kolkhozcad-canopy-2026-10-22.md)
+- [Исходное испытание проекта (прежнее название — «КолхозCAD»)](https://github.com/dedtsss/agent-dispatch/blob/main/docs/memory/kolkhozcad-canopy-2026-10-22.md)
 
 Первый практический объект — реальная рама прицепа TODOMA; далее навесы, крепления и произвольные изделия. До получения фактических обмеров геометрию TODOMA нельзя считать точной.
 
